@@ -1,7 +1,7 @@
 # bento-app
 振徳高校の翔太くん－お弁当注文Webアプリ
 
-.env
+## .env
 MYSQL_HOST=db
 
 MYSQL_ROOT_PASSWORD=P@ssw0rd
