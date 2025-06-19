@@ -8,6 +8,7 @@
 
 2. リポジトリのクローン
 *  ターミナルで以下のコマンドを実行して、リポジトリをローカルにクローンします：
+
 git clone https://github.com/skawashin1122/bento-app.git
 
 cd bento-app
