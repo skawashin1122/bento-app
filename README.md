@@ -9,20 +9,20 @@
 2. リポジトリのクローン
 *  ターミナルで以下のコマンドを実行して、リポジトリをローカルにクローンします：
 
-     git clone https://github.com/skawashin1122/bento-app.git
+     **git clone https://github.com/skawashin1122/bento-app.git**
 
-     cd bento-app
+     **cd bento-app**
 
 3. .env ファイルの作成
 *  クローンしたプロジェクトには .env.sample が含まれています。これを元に .env ファイルを作成します：
 
-     cp .env.sample .env
+     **cp .env.sample .env**
 *  この .env ファイルには、MySQLの接続情報などが含まれています。
 
 4. Dockerコンテナの起動
 *  プロジェクトルートディレクトリで以下のコマンドを実行します：
 
-     docker-compose up --build
+     **docker-compose up --build**
 *  --buildオプションは、Dockerfileが変更された場合や、初回起動時にイメージをビルドするために必要です。
 *  初回起動時は、MySQLイメージのダウンロードやデータベースの初期化に時間がかかる場合があります。
 
