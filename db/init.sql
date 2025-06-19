@@ -1,11 +1,5 @@
--- 文字セットを明示的に設定
-SET NAMES utf8mb4;
-SET CHARACTER SET utf8mb4;
-
--- データベースの作成（文字セットを明示）
-CREATE DATABASE IF NOT EXISTS bento_app_db 
-CHARACTER SET utf8mb4 
-COLLATE utf8mb4_unicode_ci;
+-- データベースが存在しない場合、作成します
+CREATE DATABASE IF NOT EXISTS bento_app_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- データベースの使用
 USE bento_app_db;

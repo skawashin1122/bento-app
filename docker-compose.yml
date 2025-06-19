@@ -1,62 +1,48 @@
+version: '3.8'
+
 services:
   web:
     build: .
     ports:
       - "5000:5000"
     volumes:
-      - ./app:/app  # ホットリロードのためにローカルのappディレクトリをマウント
-    env_file:
-      - ./.env
+      - ./app:/app
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE} # webサービスはこちらで問題なし
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     depends_on:
       db:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-      interval: 10s
-      timeout: 3s
-      retries: 3
-    networks:
-      - bento_network
-    environment:
-      - LANG=ja_JP.UTF-8
-      - LC_ALL=ja_JP.UTF-8
+    env_file:
+      - .env
 
   db:
-    image: mysql:8.0
-    container_name: mysql_db
-    env_file:
-      - ./.env
+    # image: mysql:8.0.34
+    build: # ★この行を追加
+      context: . # Dockerfile.dbがどこにあるかを示すパス (docker-compose.ymlと同じディレクトリ)
+      dockerfile: Dockerfile.db # ★作成したDockerfile.dbを指定
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      # 文字セット環境変数を明示的に設定
       LANG: ja_JP.UTF-8
-      LC_ALL: ja_JP.UTF-8
-      TZ: Asia/Tokyo
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      MYSQL_DEFAULT_AUTHENTICATION_PLUGIN: caching_sha2_password
     volumes:
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - db_data:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
-    networks:
-      - bento_network
-    # MySQLの起動オプションを追加
-    command: >
-      --character-set-server=utf8mb4
-      --collation-server=utf8mb4_unicode_ci
-      --default-time-zone='+09:00'
-      --init-connect='SET NAMES utf8mb4'
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+      timeout: 20s
+      retries: 10
+      start_period: 30s
+      interval: 3s
 
 volumes:
   db_data:
-
-networks:
-  bento_network:
-    driver: bridge

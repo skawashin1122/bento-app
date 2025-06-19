@@ -18,7 +18,7 @@ DB_CONFIG = {
     'host': os.getenv('MYSQL_HOST'),
     'user': os.getenv('MYSQL_USER'),
     'password': os.getenv('MYSQL_PASSWORD'),
-    'db': os.getenv('MYSQL_DB'),
+    'db': os.getenv('MYSQL_DATABASE'),
     'charset': 'utf8mb4',
     'cursorclass': pymysql.cursors.DictCursor,
     'init_command': 'SET NAMES utf8mb4',
