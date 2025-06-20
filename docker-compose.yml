@@ -1,4 +1,4 @@
-version: '3.8'
+#version: '3.8'
 
 services:
   web:
@@ -30,7 +30,6 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       LANG: ja_JP.UTF-8
-      MYSQL_DEFAULT_AUTHENTICATION_PLUGIN: caching_sha2_password
     volumes:
       - ./db/my.cnf:/etc/mysql/conf.d/my.cnf:ro
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro

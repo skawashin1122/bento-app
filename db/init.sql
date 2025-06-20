@@ -4,10 +4,6 @@ CREATE DATABASE IF NOT EXISTS bento_app_db CHARACTER SET utf8mb4 COLLATE utf8mb4
 -- データベースの使用
 USE bento_app_db;
 
--- 現在の文字セット設定を確認（デバッグ用）
--- SELECT @@character_set_server, @@collation_server;
-
--- 商品マスタテーブル
 CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL COMMENT '商品名',
